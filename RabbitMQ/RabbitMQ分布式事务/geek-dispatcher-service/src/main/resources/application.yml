@@ -1,0 +1,27 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/demo
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    addresses: 192.168.247.128:5672,192.168.247.128:5673
+    username: admin
+    password: admin
+    virtual-host: /
+    # 开启手动ACK，让程序去控制MQ消息的重发、移除和转移
+    listener:
+      simple:
+        acknowledge-mode: manual # 默认为none，自动进行ack，会把消息进行移除或转移到死信队列；manual表示进行手动确认
+        retry:
+          enabled: true #开启重启
+          max-attempts: 3 #最大重试次数
+          initial-interval: 2000ms #重试间隔时间
